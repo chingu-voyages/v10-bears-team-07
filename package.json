@@ -1,0 +1,27 @@
+{
+  "name": "v10-bears-team-07",
+  "version": "0.1.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dbon-unix": "mkdir -p ./db && mongod --dbpath ./db",
+    "dbon-win": "npx mkdirp ./db && mongod --dbpath ./db",
+    "dev": "npm run lint && nodemon index.js",
+    "lint": "eslint ./ --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "devDependencies": {
+    "eslint": "^6.0.1",
+    "eslint-config-google": "^0.13.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.1",
+    "prettier": "1.18.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chingu-voyages/v10-bears-team-07.git"
+  }
+}
