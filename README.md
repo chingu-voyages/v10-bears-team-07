@@ -1,6 +1,9 @@
 # v10-bears-team-07
 A service for real time channel based discussions | Voyage-10 | https://chingu.io/
 
+## Deployments:
+- [Staging](https://v10-bears-07-staging.herokuapp.com/) (mirrors `dev` branch's state)
+
 ## Development setup
 - Clone the repo: `git clone <repoName>`
 - Install dependencies: `npm install && cd client && npm install`
