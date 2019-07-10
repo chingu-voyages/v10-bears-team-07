@@ -9,6 +9,10 @@ var morgan = require('morgan');
 var app = express();
 app.use(express.json(), cors(), morgan('dev'));
 
+app.get('/api', (req, res) => {
+  res.send({ message: `Response to ${req.method} on endpoint ${req.path}` });
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.info(`App connected to port ${PORT}`));
 
