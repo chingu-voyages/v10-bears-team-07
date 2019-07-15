@@ -5,9 +5,17 @@ if (process.env.NODE_ENV != 'production') {
 var express = require('express');
 var cors = require('cors');
 var morgan = require('morgan');
+var bodyParser = require('body-parser');
+
+var registerRoute = require('./routes/register.route');
 
 var app = express();
-app.use(express.json(), cors(), morgan('dev'));
+app.use(
+  express.json(),
+  cors(),
+  morgan('dev'),
+  bodyParser.urlencoded({ extended: true })
+);
 
 app.get('/api', (req, res) => {
   res.send({ message: `Response to ${req.method} on endpoint ${req.path}` });
@@ -30,3 +38,5 @@ const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost/v10-bears-07';
 mongoose.connect(DB_URI, { useNewUrlParser: true }, () =>
   console.info(`Connected to ${DB_URI}`)
 );
+
+registerRoute(app);
