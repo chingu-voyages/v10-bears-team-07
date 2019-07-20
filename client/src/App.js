@@ -1,44 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { Register } from './components/register/register.component.js';
 
-function App() {
-  const [message, setMessage] = useState('');
-  useEffect(() => {
-    fetchDataFromServerApi(setMessage);
-  }, []);
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>Server response: {message}</p>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
-
-// *****************************
-async function fetchDataFromServerApi(setState) {
-  try {
-    var res = await fetch('api');
-    var { message } = await res.json();
-
-    setState(message);
-  } catch (e) {
-    console.error(e);
+export class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      success: false,
+      message: ''
+    };
+    this.handleForm = this.handleForm.bind(this);
+  }
+  handleForm(credentials) {
+    fetch('http://localhost:3001/register', {
+      method: 'post',
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      },
+      body: `username=${credentials.username}&email=${credentials.email}&password=${credentials.password}`
+    })
+      .then(response => response.json())
+      .then(data =>
+        this.setState({
+          success: data.success,
+          message: data.message
+        })
+      )
+      .catch(err => console.error(err));
+  }
+  render() {
+    return (
+      <div>
+        <Register message={this.state.message} handleForm={this.handleForm} />
+      </div>
+    );
   }
 }
