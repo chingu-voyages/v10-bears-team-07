@@ -6,8 +6,6 @@ var express = require('express');
 var cors = require('cors');
 var morgan = require('morgan');
 
-var registerRoute = require('./routes/register');
-
 var app = express();
 app.use(
   express.json(),
@@ -16,9 +14,11 @@ app.use(
   morgan('dev')
 );
 
-app.get('/api', (req, res) => {
-  res.send({ message: `Response to ${req.method} on endpoint ${req.path}` });
-});
+var { setupAuthRoutes } = require('./routes/auth');
+// eslint-disable-next-line new-cap
+var authRouter = express.Router();
+setupAuthRoutes(authRouter);
+app.use('/api/auth', authRouter);
 
 // Deployment code
 if (process.env.NODE_ENV == 'production') {
@@ -37,5 +37,3 @@ const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost/v10-bears-07';
 mongoose.connect(DB_URI, { useNewUrlParser: true }, () =>
   console.info(`Connected to ${DB_URI}`)
 );
-
-registerRoute(app);
