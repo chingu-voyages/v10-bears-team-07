@@ -1,7 +1,8 @@
+var omit = require('lodash.omit');
 var authController = require('./auth');
 var UserModelMock = require('../models/user');
 
-jest.mock('../models/users.js', () => {
+jest.mock('../models/user.js', () => {
   return { findOne: jest.fn() };
 });
 
@@ -39,6 +40,24 @@ describe('login', () => {
 
     expect(res.json).toHaveBeenCalledTimes(1);
     expect(res.json).toHaveBeenCalledWith({ error: 'invalid credentials' });
+  });
+
+  test('returns the user with an auth token on success', async () => {
+    var { req, res } = setup();
+    var fakeUser = getFakeUser();
+    req.body = { email: fakeUser.email, password: fakeUser.password };
+    UserModelMock.findOne.mockResolvedValueOnce(fakeUser);
+    fakeUser.comparePassword = jest.fn(() => Promise.resolve(true));
+    fakeUser.toObject = jest.fn(() => fakeUser);
+
+    await authController.login(req, res);
+
+    expect(res.json).toHaveBeenCalledTimes(1);
+    var { user } = res.json.mock.calls[0][0];
+    expect(user).toEqual({
+      ...omit(fakeUser, 'password'),
+      token: expect.any(String)
+    });
   });
 });
 

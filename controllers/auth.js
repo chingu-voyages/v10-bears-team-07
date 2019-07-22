@@ -1,3 +1,5 @@
+var omit = require('lodash.omit');
+var jwt = require('jsonwebtoken');
 var UserModel = require('../models/user');
 
 module.exports = { login, register };
@@ -18,6 +20,13 @@ async function login(req, res) {
   if (!user || !(await user.comparePassword(password))) {
     return res.json({ error: 'invalid credentials' });
   }
+
+  return res.json({
+    user: {
+      ...userToJSON(user.toObject({ virtuals: true })),
+      token: getUserToken(user)
+    }
+  });
 }
 
 async function register(req, res) {
@@ -52,4 +61,22 @@ async function register(req, res) {
         .json({ message: 'Failed to register user for unknown reasons !' });
     }
   }
+}
+
+// Helpers **************************
+function getUserToken({ id, email, username }) {
+  const secret = process.env.JWT_SECRET || 'secret';
+  return jwt.sign(
+    {
+      id,
+      email,
+      username
+    },
+    secret,
+    { expiresIn: '90d' }
+  );
+}
+
+function userToJSON(user) {
+  return omit(user, ['__v', '_id', 'password']);
 }
