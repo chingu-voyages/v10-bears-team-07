@@ -5,17 +5,11 @@ if (process.env.NODE_ENV != 'production') {
 var express = require('express');
 var cors = require('cors');
 var morgan = require('morgan');
-var bodyParser = require('body-parser');
 
 var registerRoute = require('./routes/register.route');
 
 var app = express();
-app.use(
-  express.json(),
-  cors(),
-  morgan('dev'),
-  bodyParser.urlencoded({ extended: true })
-);
+app.use(express.json(), express.urlencoded(), cors(), morgan('dev'));
 
 app.get('/api', (req, res) => {
   res.send({ message: `Response to ${req.method} on endpoint ${req.path}` });
