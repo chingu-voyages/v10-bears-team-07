@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -17,24 +16,25 @@ export class Register extends Component {
   }
   handleForm(e) {
     e.preventDefault();
+    console.log(e.target.childNodes[2].children[1].value);
     const credentials = {
-      username: this.refs.inputUsername.value,
-      email: this.refs.inputEmail.value,
-      password: this.refs.inputPassword.value
+      username: e.target.childNodes[0].children[1].value,
+      email: e.target.childNodes[1].children[1].value,
+      password: e.target.childNodes[2].children[1].value
     };
     this.props.handleForm(credentials);
   }
 
-  handleUsername() {
-    this.props.handleUsername(this.refs.inputUsername);
+  handleUsername(e) {
+    this.props.handleUsername(e.target);
   }
 
-  handlePassword() {
-    this.props.handlePassword(this.refs.inputPassword);
+  handlePassword(e) {
+    this.props.handlePassword(e.target);
   }
 
-  handleEmail() {
-    this.props.handleEmail(this.refs.inputEmail);
+  handleEmail(e) {
+    this.props.handleEmail(e.target);
   }
 
   formIsValid() {
@@ -67,7 +67,6 @@ export class Register extends Component {
                     type="text"
                     className={this.props.usernameBorderStyle}
                     placeholder="Enter Username"
-                    ref="inputUsername"
                     onChange={this.handleUsername}
                     minLength="3"
                     required
@@ -85,7 +84,6 @@ export class Register extends Component {
                   <Form.Control
                     type="email"
                     placeholder="Enter email"
-                    ref="inputEmail"
                     className={this.props.emailBorderStyle}
                     onChange={this.handleEmail}
                     required
@@ -104,7 +102,6 @@ export class Register extends Component {
                     type="password"
                     className={this.props.passwordBorderStyle}
                     placeholder="Enter your password"
-                    ref="inputPassword"
                     onChange={this.handlePassword}
                     minLength="8"
                     required
@@ -124,11 +121,6 @@ export class Register extends Component {
               </Form>
             </Card.Body>
           </Card>
-          <div>
-            <p>
-              Already registerd ? Please <Link to="/login">log in</Link>
-            </p>
-          </div>
         </Container>
       </div>
     );
