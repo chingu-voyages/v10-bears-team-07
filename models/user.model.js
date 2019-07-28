@@ -7,14 +7,14 @@ const userSchema = mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: [true, 'The username is required !'],
       trim: true,
       index: { unique: true },
-      minlength: 3
+      minlength: [3, 'The username must contain at least 3 characters !']
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'The email is required'],
       trim: true,
       index: { unique: true },
       lowercase: true,
@@ -25,31 +25,20 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
-      trim: true,
-      index: { unique: true },
-      minlength: 8
+      required: [true, 'The password is required !'],
+      minlength: [8, 'The password must contain at least 8 characters !']
     }
   },
   { timestamps: true }
 );
 
-userSchema.pre('save', async function(next) {
-  const user = this;
-  if (!user.isModified('password')) {
-    return next();
-  }
-  try {
-    const hash = await bcrypt.hash(user.password, SALT_ROUNDS);
-    user.password = hash;
-    return next();
-  } catch (err) {
-    return next(err);
-  }
+userSchema.pre('save', async function() {
+  const hash = await bcrypt.hash(this.password, SALT_ROUNDS);
+  this.password = hash;
 });
 
-userSchema.methods.comparePassword = async function(password) {
-  return bcrypt.compare(password, this.password);
+userSchema.methods.comparePassword = function(plainTextPassword) {
+  return bcrypt.compare(plainTextPassword, this.password);
 };
 
 module.exports = mongoose.model('user', userSchema);
