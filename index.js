@@ -6,7 +6,7 @@ var express = require("express");
 var cors = require("cors");
 var morgan = require("morgan");
 
-var registerRoute = require("./routes/register.route");
+var registerRoute = require("./routes/register");
 
 var app = express();
 app.use(
