@@ -1,5 +1,5 @@
-const handlePost = require("../controllers/register");
+const handlePost = require('../controllers/register');
 
 module.exports = app => {
-  app.post("/register", handlePost);
+  app.post('/register', handlePost);
 };

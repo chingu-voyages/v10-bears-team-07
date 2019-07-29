@@ -3,7 +3,7 @@ const emailValidator = require('email-validator');
 const bcrypt = require('bcrypt');
 const SALT_ROUNDS = 12;
 
-const userSchema = mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
