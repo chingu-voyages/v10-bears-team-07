@@ -5,9 +5,9 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import * as EmailValidator from 'email-validator';
-import './register.style.css';
+import './register.css';
 
-export class Register extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
