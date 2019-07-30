@@ -61,6 +61,8 @@ describe('login', () => {
   });
 });
 
+test.todo('Test getUserCache');
+
 // Helpers **************************
 function setup() {
   var res = {

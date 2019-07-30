@@ -2,7 +2,33 @@ var omit = require('lodash.omit');
 var jwt = require('jsonwebtoken');
 var UserModel = require('../models/user');
 
-module.exports = { login, register };
+module.exports = { getCachedUser, login, register };
+
+async function getCachedUser(req, res) {
+  // Check if a token has been sent with the request
+  // Can be extracted into a middleware
+  var { authorization } = req.headers;
+
+  if (!authorization || authorization.split(' ')[0] !== 'Bearer') {
+    return res.status(401).send();
+  }
+
+  var token = authorization.split(' ')[1];
+  const secret = process.env.JWT_SECRET || 'secret';
+
+  try {
+    var decodedUser = await jwt.verify(token, secret);
+  } catch (error) {
+    return res.status(401).send();
+  }
+
+  return res.json({
+    user: {
+      ...userToJSON(decodedUser),
+      token
+    }
+  });
+}
 
 async function login(req, res) {
   var { email, password } = req.body;
@@ -78,5 +104,5 @@ function getUserToken({ id, email, username }) {
 }
 
 function userToJSON(user) {
-  return omit(user, ['__v', '_id', 'password']);
+  return omit(user, ['__v', '_id', 'exp', 'iat', 'password']);
 }
