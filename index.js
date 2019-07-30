@@ -14,7 +14,7 @@ app.use(
   morgan('dev')
 );
 
-var { setupAuthRoutes } = require('./routes/auth');
+var { setupAuthRoutes } = require('./src/routes/auth');
 // eslint-disable-next-line new-cap
 var authRouter = express.Router();
 setupAuthRoutes(authRouter);
