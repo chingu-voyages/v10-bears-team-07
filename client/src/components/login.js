@@ -8,6 +8,7 @@ function Login({ onSubmit }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="login">
@@ -45,7 +46,7 @@ function Login({ onSubmit }) {
             />
           </div>
 
-          <button>Sign In</button>
+          <button disabled={loading}>Sign In</button>
           <p className="login__redirect">
             Need an account ? <Link to="/register">Register</Link> instead
           </p>
@@ -56,9 +57,12 @@ function Login({ onSubmit }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true);
+
     const { error, user } = await auth.login({ email, password });
 
     if (error) {
+      setLoading(false);
       return setError(error);
     }
     onSubmit(user);

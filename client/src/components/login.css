@@ -65,6 +65,10 @@
   border-radius: 2px;
   cursor: pointer;
 }
+.login button:disabled {
+  background: var(--primary-color--disabled);
+  cursor: not-allowed;
+}
 
 .login__redirect {
   font-size: 0.75em;
