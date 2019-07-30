@@ -7,7 +7,7 @@ var api;
 
 // fallback baseURL string value is because of package.json's proxy entry
 function init({
-  token,
+  token = window.localStorage.getItem('token'),
   baseURL = (api && api.defaults.baseURL) || '/api'
 } = {}) {
   api = axios.create({
@@ -21,6 +21,7 @@ const auth = {
     var { data } = await api.post('/auth/register', formData);
 
     if (!data.error) {
+      window.localStorage.setItem('token', data.user.token);
       init({ token: data.user.token });
     }
 
@@ -30,6 +31,7 @@ const auth = {
     var { data } = await api.post('/auth/login', formData);
 
     if (!data.error) {
+      window.localStorage.setItem('token', data.user.token);
       init({ token: data.user.token });
     }
 
