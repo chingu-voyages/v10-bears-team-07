@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import Dashboard from './components/dashboard';
 import Login from './components/login';
 import Register from './components/register';
+import { auth } from './services/api';
 
 function App() {
   const [user, setUser] = useState(null);
+  useEffect(() => {
+    async function getCachedUser() {
+      const { user } = await auth.getCachedUser();
+      setUser(user);
+    }
+
+    getCachedUser();
+  }, []);
 
   return (
     <BrowserRouter>
