@@ -1,6 +1,16 @@
-const UserModel = require('../models/user');
+var UserModel = require('../models/user');
 
-module.exports = async (req, res) => {
+module.exports = { login, register };
+
+async function login(req, res) {
+  var { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).send();
+  }
+}
+
+async function register(req, res) {
   try {
     const savedUser = await UserModel.create(req.body);
     if (savedUser) {
@@ -32,4 +42,4 @@ module.exports = async (req, res) => {
         .json({ message: 'Failed to register user for unknown reasons !' });
     }
   }
-};
+}
