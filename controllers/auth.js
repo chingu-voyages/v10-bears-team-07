@@ -8,6 +8,16 @@ async function login(req, res) {
   if (!email || !password) {
     return res.status(400).send();
   }
+
+  try {
+    var user = await UserModel.findOne({ email });
+  } catch (error) {
+    return res.status(500).json({ error: 'internal server error' });
+  }
+
+  if (!user || !(await user.comparePassword(password))) {
+    return res.json({ error: 'invalid credentials' });
+  }
 }
 
 async function register(req, res) {
