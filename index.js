@@ -6,8 +6,15 @@ var express = require('express');
 var cors = require('cors');
 var morgan = require('morgan');
 
+var registerRoute = require('./routes/register');
+
 var app = express();
-app.use(express.json(), cors(), morgan('dev'));
+app.use(
+  express.json(),
+  express.urlencoded({ extended: true }),
+  cors(),
+  morgan('dev')
+);
 
 app.get('/api', (req, res) => {
   res.send({ message: `Response to ${req.method} on endpoint ${req.path}` });
@@ -30,3 +37,5 @@ const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost/v10-bears-07';
 mongoose.connect(DB_URI, { useNewUrlParser: true }, () =>
   console.info(`Connected to ${DB_URI}`)
 );
+
+registerRoute(app);
