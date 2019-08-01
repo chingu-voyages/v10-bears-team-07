@@ -37,7 +37,7 @@ export default class Register extends Component {
       email: e.target.childNodes[1].children[1].value,
       password: e.target.childNodes[2].children[1].value
     };
-    fetch('http://localhost:3001/register', {
+    fetch('/api/auth/register', {
       method: 'post',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
