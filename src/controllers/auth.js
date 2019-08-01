@@ -59,7 +59,13 @@ async function register(req, res) {
   try {
     const savedUser = await UserModel.create(req.body);
     if (savedUser) {
-      res.json({ message: 'Bravo, you have been successfuly registered!' });
+      res.json({
+        user: {
+          ...userToJSON(savedUser.toObject({ virtuals: true })),
+          token: getUserToken(savedUser)
+        },
+        message: 'Bravo, you have been successfuly registered!'
+      });
     }
   } catch (err) {
     let errorData;

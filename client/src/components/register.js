@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
@@ -57,6 +56,9 @@ export default class Register extends Component {
           field: data.field ? data.field : null,
           username: this.state.success ? credentials.username : null
         });
+
+        window.localStorage.setItem('token', data.user.token);
+        this.props.onSubmit(data.user);
       })
       .catch(err => {
         if (err.name === 'AbortError') return;
@@ -192,7 +194,6 @@ export default class Register extends Component {
             </Card.Body>
           </Card>
         </Container>
-        {this.state.success ? <Redirect to="/dashboard" /> : null}
       </div>
     );
   }
