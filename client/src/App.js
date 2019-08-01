@@ -47,7 +47,9 @@ function App() {
       />
       <Route
         path="/dashboard"
-        render={() => (!user ? <Redirect to="/login" /> : <Dashboard />)}
+        render={() =>
+          !user ? <Redirect to="/login" /> : <Dashboard onClick={setUser} />
+        }
       />
     </BrowserRouter>
   );

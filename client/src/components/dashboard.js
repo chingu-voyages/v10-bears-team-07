@@ -1,7 +1,20 @@
-import React from 'react';
+import React from 'react'
+import { withRouter } from 'react-router-dom'
 
-function Dashboard() {
-  return <div>Dashboard here</div>;
+function Dashboard({ onClick, history }) {
+  return (
+    <div>
+      <button
+        onClick={() => {
+          window.localStorage.removeItem('token');
+          onClick(null);
+          history.push('/')
+        }}
+      >
+        Logout
+      </button>
+    </div>
+  );
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);
