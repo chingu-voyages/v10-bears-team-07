@@ -1,5 +1,5 @@
-import React from 'react'
-import { withRouter } from 'react-router-dom'
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 function Dashboard({ onClick, history }) {
   return (
@@ -8,7 +8,7 @@ function Dashboard({ onClick, history }) {
         onClick={() => {
           window.localStorage.removeItem('token');
           onClick(null);
-          history.push('/')
+          history.push('/');
         }}
       >
         Logout
