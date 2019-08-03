@@ -21,6 +21,7 @@ module.exports = {
         singleQuote: true
       }
     ],
-    'no-var': 0
+    'no-var': 0,
+    'require-jsdoc': 0
   }
 };

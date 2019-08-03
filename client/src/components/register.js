@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import * as EmailValidator from 'email-validator';
-import './register.style.css';
+import './register.css';
 
-export class Register extends Component {
+export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +36,7 @@ export class Register extends Component {
       email: e.target.childNodes[1].children[1].value,
       password: e.target.childNodes[2].children[1].value
     };
-    fetch('http://localhost:3001/register', {
+    fetch('/api/auth/register', {
       method: 'post',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
@@ -57,6 +56,9 @@ export class Register extends Component {
           field: data.field ? data.field : null,
           username: this.state.success ? credentials.username : null
         });
+
+        window.localStorage.setItem('token', data.user.token);
+        this.props.onSubmit(data.user);
       })
       .catch(err => {
         if (err.name === 'AbortError') return;
@@ -192,7 +194,6 @@ export class Register extends Component {
             </Card.Body>
           </Card>
         </Container>
-        {this.state.success ? <Redirect to="/dashboard" /> : null}
       </div>
     );
   }
