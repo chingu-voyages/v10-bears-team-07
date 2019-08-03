@@ -1,0 +1,83 @@
+.landing {
+  --primary-color: hsl(216, 54%, 61%);
+  --secondary-color: hsl(174, 74%, 39%);
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: hsl(0, 0%, 40%);
+  text-align: center;
+  padding: 0 2em;
+}
+
+.landing__content {
+  padding: 2em 0;
+}
+
+.landing__title {
+  font-size: 1.5rem;
+  margin-bottom: 0.75em;
+}
+.landing__lead {
+  margin-bottom: 2em;
+}
+
+.landing__btn--alt,
+.landing__btn {
+  display: block;
+  background: var(--primary-color);
+  border-radius: 5px;
+  color: white;
+  margin: 5px auto;
+  padding: 0.5em 0;
+  width: 75%;
+}
+.landing__btn--alt:hover,
+.landing__btn--alt:active,
+.landing__btn:hover,
+.landing__btn:active {
+  color: white;
+  text-decoration: none;
+  opacity: 0.8;
+}
+.landing__btn--alt {
+  background: var(--secondary-color);
+}
+
+@media screen and (min-width: 450px) {
+  .landing {
+    position: relative;
+  }
+
+  .landing__content {
+    width: 450px;
+  }
+
+  .landing__login {
+    position: absolute;
+    top: 0.5em;
+    right: 2em;
+    width: initial;
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .landing {
+    flex-direction: row;
+  }
+
+  .landing__content {
+    margin-top: 0;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .landing {
+    width: 900px;
+    margin: 0 auto;
+  }
+}
