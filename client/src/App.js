@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import Dashboard from './components/dashboard';
+import Home from './components/home';
 import Login from './components/login';
 import Register from './components/register';
 import { auth } from './services/api';
@@ -21,17 +22,7 @@ function App() {
       <Route
         exact
         path="/"
-        render={() => {
-          if (!user) {
-            return (
-              <p>
-                <Link to="/login">Sign in</Link> or{' '}
-                <Link to="/register">Register</Link>
-              </p>
-            );
-          }
-          return <Redirect to="/dashboard" />;
-        }}
+        render={() => <Home isLoggedIn={Boolean(user)} />}
       />
       <Route
         path="/login"
