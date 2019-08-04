@@ -1,0 +1,12 @@
+.redBorder {
+  border: solid 2px red;
+}
+
+.greenBorder {
+  border: solid 2px green;
+}
+
+.feedback {
+  font-size: 1.1em;
+  padding: 5px;
+}
