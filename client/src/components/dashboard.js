@@ -6,7 +6,8 @@ function Dashboard() {
   return (
     <div>
       <div>drawer goes here</div>
-      <div>
+
+      <div className="tabContent">
         <div>navigation goes here</div>
 
         <div className="dashboard">
