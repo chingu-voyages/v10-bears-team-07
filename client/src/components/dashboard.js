@@ -1,20 +1,29 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
-function Dashboard({ onClick, history }) {
+import './dashboard.css';
+
+function Dashboard() {
   return (
     <div>
-      <button
-        onClick={() => {
-          window.localStorage.removeItem('token');
-          onClick(null);
-          history.push('/');
-        }}
-      >
-        Logout
-      </button>
+      <div>drawer goes here</div>
+      <div>
+        <div>navigation goes here</div>
+
+        <div className="dashboard">
+          <p>Welcome to your dashboard ! Go ahead and...</p>
+          <div>
+            <input
+              className="searchInput"
+              type="text"
+              placeholder="Find existing channels"
+            />{' '}
+            <span className="actionsDivider">or...</span>{' '}
+            <button className="createButton">Create a new one</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default withRouter(Dashboard);
+export default Dashboard;
