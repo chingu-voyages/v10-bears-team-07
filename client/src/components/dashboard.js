@@ -1,12 +1,14 @@
 import React from 'react';
+import Drawer from './drawer';
 import Navigation from './navigation';
 
 import './dashboard.css';
 
 function Dashboard() {
   return (
-    <div>
-      <div>drawer goes here</div>
+    // TODO: extract parent component and only leave dashboard
+    <div className="parent">
+      <Drawer />
 
       <div className="tabContent">
         <Navigation />
