@@ -39,7 +39,11 @@ const auth = {
     var { data } = await api.post('/auth/register', formData);
 
     if (!data.error) {
+      console.log(data);
       window.localStorage.setItem('token', data.user.token);
+      window.localStorage.setItem('username', data.user.username);
+      window.localStorage.setItem('id', data.user.id);
+
       init({ token: data.user.token });
     }
 
@@ -49,7 +53,11 @@ const auth = {
     var { data } = await api.post('/auth/login', formData);
 
     if (!data.error) {
+      console.log(data);
       window.localStorage.setItem('token', data.user.token);
+      window.localStorage.setItem('username', data.user.username);
+      window.localStorage.setItem('id', data.user.id);
+
       init({ token: data.user.token });
     }
 
@@ -57,9 +65,17 @@ const auth = {
   },
   logout() {
     window.localStorage.removeItem('token');
+    window.localStorage.removeItem('username');
+    window.localStorage.removeItem('id');
+
     init({ token: null });
     return Promise.resolve({ user: null });
   }
 };
 
-export { init, auth };
+async function createChannel(formData) {
+  const { data } = await api.post('/channel', formData);
+  return data;
+}
+
+export { init, auth, createChannel };

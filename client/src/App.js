@@ -4,6 +4,7 @@ import Dashboard from './components/dashboard';
 import Home from './components/home';
 import Login from './components/login';
 import Register from './components/register';
+import Channel from './components/channel';
 import { auth } from './services/api';
 
 function App() {
@@ -41,6 +42,10 @@ function App() {
         render={() =>
           !user ? <Redirect to="/login" /> : <Dashboard onClick={setUser} />
         }
+      />
+      <Route
+        path="/channel"
+        render={() => (!user ? <Redirect to="/login" /> : <Channel />)}
       />
     </BrowserRouter>
   );
