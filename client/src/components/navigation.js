@@ -5,7 +5,7 @@ import './navigation.css';
 function Navigation({ toggleDrawer }) {
   return (
     <div className="navigation">
-      <button className="drawerToggler" onClick={e => toggleDrawer()}>
+      <button className="drawerToggler" onClick={toggleDrawer}>
         ☰
       </button>
       <h2 className="tabTitle">Dashboard</h2>

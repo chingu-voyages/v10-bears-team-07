@@ -2,20 +2,25 @@ import React from 'react';
 
 import './drawer.css';
 
-function Drawer() {
+function Drawer({ isOpen, toggleDrawer }) {
+  const drawerClass = `drawer${isOpen ? ' open' : ''}`;
+  const backdropClass = `backdrop${isOpen ? ' open' : ''}`;
   return (
-    <div className="drawer">
-      <div className="drawerActions">
-        <input
-          className="filterInput"
-          type="text"
-          placeholder="Filter your channels"
-        />{' '}
-        <button className="optionsButton">⋮</button>
-      </div>
+    <>
+      <div className={backdropClass} onClick={toggleDrawer}></div>
+      <div className={drawerClass}>
+        <div className="drawerActions">
+          <input
+            className="filterInput"
+            type="text"
+            placeholder="Filter your channels"
+          />{' '}
+          <button className="optionsButton">⋮</button>
+        </div>
 
-      <Channels />
-    </div>
+        <Channels />
+      </div>
+    </>
   );
 }
 

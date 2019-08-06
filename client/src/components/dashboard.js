@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Drawer from './drawer';
 import Navigation from './navigation';
 
 import './dashboard.css';
 
 function Dashboard() {
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
+
   return (
     // TODO: extract parent component and only leave dashboard
     <div className="parent">
-      <Drawer />
+      <Drawer toggleDrawer={toggleDrawer} isOpen={open} />
 
       <div className="tabContent">
-        <Navigation />
+        <Navigation toggleDrawer={toggleDrawer} />
 
         <div className="dashboard">
           <p>Welcome to your dashboard ! Go ahead and...</p>

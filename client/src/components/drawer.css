@@ -62,3 +62,34 @@
   font-size: 0.85em;
   margin: 0;
 }
+
+@media screen and (max-width: 949px) {
+  .drawer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2000;
+    background: white;
+    border-right: 0;
+    transform: translateX(-250px);
+    transition: transform 400ms ease, box-shadow 400ms ease;
+  }
+  .drawer.open {
+    transform: translateX(0);
+    box-shadow: hsl(0, 0%, 40%) 0px 3px 10px;
+  }
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    z-index: 1000;
+    height: 100%;
+    width: 100%;
+  }
+  .backdrop.open {
+    left: 0%;
+    background: hsl(0, 0%, 40%);
+    opacity: 0.5;
+    transition: background 400ms ease;
+  }
+}
