@@ -1,4 +1,5 @@
 import React from 'react';
+import Navigation from './navigation';
 
 import './dashboard.css';
 
@@ -8,7 +9,7 @@ function Dashboard() {
       <div>drawer goes here</div>
 
       <div className="tabContent">
-        <div>navigation goes here</div>
+        <Navigation />
 
         <div className="dashboard">
           <p>Welcome to your dashboard ! Go ahead and...</p>
