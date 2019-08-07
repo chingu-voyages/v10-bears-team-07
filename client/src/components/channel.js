@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { auth } from '../services/api';
+import { Redirect } from 'react-router-dom';
 import { createChannel } from '../services/api';
 
 import './login.css';
 
-function Login({ onSubmit }) {
+function Channel({ onSubmit }) {
   const [name, setName] = useState('');
   const [tags, setTags] = useState([]);
-  const [channel, setChannel] = useState({});
+  const [channel, setChannel] = useState('');
   const [ownerId, setOwnerId] = useState(window.localStorage.getItem('id'));
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -40,6 +39,7 @@ function Login({ onSubmit }) {
               type="text"
               name="channelTags"
               id="tags"
+              placeholder="Add some tags separated by commas"
               required
             />
           </div>
@@ -49,6 +49,7 @@ function Login({ onSubmit }) {
           </button>
         </form>
       </div>
+      {channel ? <Redirect to="/dashboard" /> : null}
     </div>
   );
 
@@ -56,9 +57,13 @@ function Login({ onSubmit }) {
     event.preventDefault();
     setLoading(true);
     const ownerId = window.localStorage.getItem('id');
-    const channel = await createChannel({ name, tags, ownerId });
-    setChannel(channel);
+    const { message, savedChannel } = await createChannel({
+      name,
+      tags,
+      ownerId
+    });
+    setChannel(savedChannel);
   }
 }
 
-export default Login;
+export default Channel;

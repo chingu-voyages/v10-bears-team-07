@@ -39,7 +39,6 @@ const auth = {
     var { data } = await api.post('/auth/register', formData);
 
     if (!data.error) {
-      console.log(data);
       window.localStorage.setItem('token', data.user.token);
       window.localStorage.setItem('username', data.user.username);
       window.localStorage.setItem('id', data.user.id);
@@ -53,7 +52,6 @@ const auth = {
     var { data } = await api.post('/auth/login', formData);
 
     if (!data.error) {
-      console.log(data);
       window.localStorage.setItem('token', data.user.token);
       window.localStorage.setItem('username', data.user.username);
       window.localStorage.setItem('id', data.user.id);
@@ -78,4 +76,9 @@ async function createChannel(formData) {
   return data;
 }
 
-export { init, auth, createChannel };
+const getUserChannels = async userId => {
+  const channels = await api.get('/channel/' + userId);
+  return channels;
+};
+
+export { init, auth, createChannel, getUserChannels };
