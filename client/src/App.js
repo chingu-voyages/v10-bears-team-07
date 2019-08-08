@@ -4,7 +4,7 @@ import Dashboard from './components/dashboard';
 import Home from './components/home';
 import Login from './components/login';
 import Register from './components/register';
-import Channel from './components/channel';
+import ChannelForm from './components/channel_form';
 import { auth } from './services/api';
 
 function App() {
@@ -44,8 +44,8 @@ function App() {
         }
       />
       <Route
-        path="/channel"
-        render={() => (!user ? <Redirect to="/login" /> : <Channel />)}
+        path="/channel/new"
+        render={() => (!user ? <Redirect to="/login" /> : <ChannelForm />)}
       />
     </BrowserRouter>
   );

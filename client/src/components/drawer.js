@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getUserChannels } from '../services/api';
 
 import './drawer.css';
 
-function Drawer({ isOpen, toggleDrawer }) {
+function Drawer({ isOpen, toggleDrawer }, props) {
   const drawerClass = `drawer${isOpen ? ' open' : ''}`;
   const backdropClass = `backdrop${isOpen ? ' open' : ''}`;
+  const userId = window.localStorage.getItem('id');
+
+  const [userChannels, setUserChannels] = useState([]);
+
+  useEffect(() => {
+    async function fetchUserChannels() {
+      const channels = await getUserChannels(userId);
+      setUserChannels(channels.data);
+    }
+    fetchUserChannels();
+  }, []);
+
   return (
     <>
       <div className={backdropClass} onClick={toggleDrawer}></div>
@@ -18,13 +31,22 @@ function Drawer({ isOpen, toggleDrawer }) {
           <button className="optionsButton">⋮</button>
         </div>
 
-        <Channels />
+        {/*<Channels />*/}
+        <div>
+          {userChannels ? (
+            <ul>
+              {userChannels.map(channel => (
+                <li key={channel._id}>{channel.name}</li>
+              ))}
+            </ul>
+          ) : null}
+        </div>
       </div>
     </>
   );
 }
 
-function Channels() {
+/*function Channels() {
   return (
     <nav className="channels">
       <ul>
@@ -43,5 +65,6 @@ function Channels() {
       </ul>
     </nav>
   );
-}
+} */
+
 export default Drawer;

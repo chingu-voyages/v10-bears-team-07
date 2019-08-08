@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Drawer from './drawer';
 import Navigation from './navigation';
 
@@ -27,7 +28,9 @@ function Dashboard() {
               placeholder="Find existing channels"
             />{' '}
             <span className="actionsDivider">or...</span>{' '}
-            <button className="createButton">Create a new one</button>
+            <Link className="createButton" to="/channel/new">
+              Create a new one
+            </Link>
           </div>
         </div>
       </div>

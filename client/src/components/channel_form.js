@@ -4,7 +4,7 @@ import { createChannel } from '../services/api';
 
 import './login.css';
 
-function Channel({ onSubmit }) {
+function ChannelForm({ onSubmit }) {
   const [name, setName] = useState('');
   const [tags, setTags] = useState([]);
   const [channel, setChannel] = useState('');
@@ -66,4 +66,4 @@ function Channel({ onSubmit }) {
   }
 }
 
-export default Channel;
+export default ChannelForm;
