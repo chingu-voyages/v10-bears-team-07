@@ -1,23 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { channels } from '../services/api';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './drawer.css';
 
-function Drawer({ isOpen, toggleDrawer }, props) {
+function Drawer({ channels, isOpen, toggleDrawer }) {
   const drawerClass = `drawer${isOpen ? ' open' : ''}`;
   const backdropClass = `backdrop${isOpen ? ' open' : ''}`;
-  const userId = window.localStorage.getItem('id');
-
-  const [userChannels, setUserChannels] = useState([]);
-
-  useEffect(() => {
-    async function fetchUserChannels() {
-      const { channels: userChannels } = await channels.getUserChannels(userId);
-      setUserChannels(userChannels);
-    }
-
-    fetchUserChannels();
-  }, []);
 
   return (
     <>
@@ -32,40 +20,31 @@ function Drawer({ isOpen, toggleDrawer }, props) {
           <button className="optionsButton">⋮</button>
         </div>
 
-        {/*<Channels />*/}
-        <div>
-          {userChannels ? (
-            <ul>
-              {userChannels.map(channel => (
-                <li key={channel._id}>{channel.name}</li>
-              ))}
-            </ul>
-          ) : null}
-        </div>
+        <Channels channels={channels} />
       </div>
     </>
   );
 }
 
-/*function Channels() {
+function Channels({ channels }) {
+  if (!channels) {
+    return '';
+  }
+
   return (
     <nav className="channels">
       <ul>
-        <li>
-          <a href="#">
-            <h3 className="channelName">Channel 1</h3>
-            <p className="channelDescription">Channel 1 description</p>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <h3 className="channelName">Channel 2</h3>
-            <p className="channelDescription">Channel 2 description</p>
-          </a>
-        </li>
+        {channels.map(channel => (
+          <li key={channel._id}>
+            <Link to={`/channels/${channel.name}`}>
+              <h3 className="channelName">{channel.name}</h3>
+              <p className="channelDescription">{channel.description}</p>
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
-} */
+}
 
 export default Drawer;
