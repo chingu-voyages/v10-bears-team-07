@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getUserChannels } from '../services/api';
+import { channels } from '../services/api';
 
 import './drawer.css';
 
@@ -12,9 +12,10 @@ function Drawer({ isOpen, toggleDrawer }, props) {
 
   useEffect(() => {
     async function fetchUserChannels() {
-      const channels = await getUserChannels(userId);
-      setUserChannels(channels.data);
+      const { channels: userChannels } = await channels.getUserChannels(userId);
+      setUserChannels(userChannels);
     }
+
     fetchUserChannels();
   }, []);
 

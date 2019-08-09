@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { createChannel } from '../services/api';
+import { channels } from '../services/api';
 
 import './login.css';
 
@@ -57,7 +57,7 @@ function ChannelForm({ onSubmit }) {
     event.preventDefault();
     setLoading(true);
     const ownerId = window.localStorage.getItem('id');
-    const { message, savedChannel } = await createChannel({
+    const { message, savedChannel } = await channels.createChannel({
       name,
       tags,
       ownerId
