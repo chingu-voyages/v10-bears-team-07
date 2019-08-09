@@ -4,7 +4,7 @@ import Dashboard from './components/dashboard';
 import Home from './components/home';
 import Login from './components/login';
 import Register from './components/register';
-import ChannelForm from './components/channel_form';
+import ChannelForm from './components/channelForm';
 import { auth } from './services/api';
 
 function App() {

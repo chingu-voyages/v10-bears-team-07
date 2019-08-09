@@ -1,4 +1,4 @@
-const channelController = require('../controllers/channel');
+const channelController = require('../controllers/channels');
 
 module.exports = { setupChannelRoutes };
 

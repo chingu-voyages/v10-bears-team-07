@@ -15,7 +15,7 @@ app.use(
 );
 
 var { setupAuthRoutes } = require('./src/routes/auth');
-var { setupChannelRoutes } = require('./src/routes/channel');
+var { setupChannelRoutes } = require('./src/routes/channels');
 
 var authRouter = express.Router();
 var channelRouter = express.Router();
