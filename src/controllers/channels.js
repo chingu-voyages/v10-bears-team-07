@@ -1,6 +1,6 @@
 const ChannelModel = require('../models/channel');
 
-module.exports = { create, getUserChannels };
+module.exports = { create, getUserChannels, findByNameMatch };
 
 async function create(req, res) {
   const existingChannel = await ChannelModel.findOne({ name: req.body.name });
@@ -27,4 +27,16 @@ async function getUserChannels(req, res) {
   } catch (err) {
     res.status(500).json({ error: 'Failed to retrieve channels' });
   }
+}
+
+async function findByNameMatch(req, res) {
+  const nameMatch = new RegExp(req.query.keyword, 'i');
+
+  try {
+    var channels = await ChannelModel.find({ name: nameMatch }).lean();
+  } catch (error) {
+    return res.status(500).json({ error: 'internal server error' });
+  }
+
+  return res.json({ channels });
 }
