@@ -14,17 +14,8 @@ app.use(
   morgan('dev')
 );
 
-var { setupAuthRoutes } = require('./src/routes/auth');
-var { setupChannelRoutes } = require('./src/routes/channels');
-
-var authRouter = express.Router();
-var channelRouter = express.Router();
-
-setupAuthRoutes(authRouter);
-setupChannelRoutes(channelRouter);
-
-app.use('/api/auth', authRouter);
-app.use('/api/channels', channelRouter);
+var setupRoutes = require('./src/routes/');
+setupRoutes(app);
 
 // Deployment code
 if (process.env.NODE_ENV == 'production') {
