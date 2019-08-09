@@ -28,7 +28,7 @@ function Dashboard({ channels }) {
               placeholder="Find existing channels"
             />{' '}
             <span className="actionsDivider">or...</span>{' '}
-            <Link className="createButton" to="/channel/new">
+            <Link className="createLink" to="/channel/new">
               Create a new one
             </Link>
           </div>

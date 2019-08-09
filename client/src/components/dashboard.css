@@ -26,7 +26,7 @@
   padding: 0 2em;
 }
 
-.createButton,
+.createLink,
 .searchInput {
   height: 36px;
   max-width: 250px;
@@ -34,12 +34,12 @@
   margin: 5px auto;
   padding: 5px;
 }
-.createButton {
-  background: transparent;
+.createLink {
+  display: inline-block;
   border: 1px solid var(--secondary-color);
   color: var(--secondary-color);
 }
-.createButton:hover {
+.createLink:hover {
   border-color: var(--accent-color);
   color: var(--accent-color);
 }
