@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { channels } from '../services/api';
 
 import './login.css';
 
-function ChannelForm({ onSubmit }) {
+function ChannelForm({ history, user, onSubmit }) {
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const [tags, setTags] = useState([]);
-  const [channel, setChannel] = useState('');
-  const [ownerId, setOwnerId] = useState(window.localStorage.getItem('id'));
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +15,7 @@ function ChannelForm({ onSubmit }) {
     <div className="login">
       <div className="login__inner">
         <header>
-          <h2 className="login__title">New Channel</h2>
+          <h2 className="login__title">Create a new Channel</h2>
           {error && <p className="login__error">An error occured: {error}</p>}
         </header>
 
@@ -24,46 +23,71 @@ function ChannelForm({ onSubmit }) {
           <div className="form-group">
             <label htmlFor="name">Channel Name</label>
             <input
-              onBlur={e => setName(e.target.value)}
+              onChange={e => {
+                setName(e.target.value);
+              }}
+              value={name}
               type="text"
-              name="channelName"
+              name="name"
               id="name"
+              minLength="3"
               required
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="tags">Channel Tags</label>
+            <label htmlFor="description">Channel Description</label>
             <input
-              onBlur={e => setTags(e.target.value.split(','))}
+              onChange={e => {
+                setDescription(e.target.value);
+              }}
+              value={description}
               type="text"
-              name="channelTags"
-              id="tags"
-              placeholder="Add some tags separated by commas"
-              required
+              name="description"
+              id="description"
+              maxLength="150"
             />
           </div>
 
+          <div className="form-group">
+            <label htmlFor="tags">Comma separated Tags</label>
+            <input
+              onChange={e => {
+                setTags(e.target.value);
+              }}
+              value={tags}
+              type="text"
+              name="tags"
+              id="tags"
+            />
+          </div>
           <button disabled={loading} type="submit">
             Create Channel
           </button>
         </form>
       </div>
-      {channel ? <Redirect to="/dashboard" /> : null}
     </div>
   );
 
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
-    const ownerId = window.localStorage.getItem('id');
-    const { message, savedChannel } = await channels.createChannel({
+
+    const { error, channel } = await channels.createChannel({
       name,
+      description,
       tags,
-      ownerId
+      ownerId: user.id
     });
-    setChannel(savedChannel);
+
+    if (error) {
+      setLoading(false);
+      return setError(error);
+    }
+
+    onSubmit(channel);
+    history.push(`/${channel.name}`);
   }
 }
 
-export default ChannelForm;
+export default withRouter(ChannelForm);
