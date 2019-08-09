@@ -5,7 +5,7 @@ import Navigation from './navigation';
 
 import './dashboard.css';
 
-function Dashboard() {
+function Dashboard({ channels }) {
   const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -14,7 +14,7 @@ function Dashboard() {
   return (
     // TODO: extract parent component and only leave dashboard
     <div className="parent">
-      <Drawer toggleDrawer={toggleDrawer} isOpen={open} />
+      <Drawer channels={channels} toggleDrawer={toggleDrawer} isOpen={open} />
 
       <div className="tabContent">
         <Navigation toggleDrawer={toggleDrawer} />
