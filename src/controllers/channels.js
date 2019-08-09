@@ -1,24 +1,30 @@
 const ChannelModel = require('../models/channel');
 
-const create = async (req, res) => {
-  try {
-    const savedChannel = await ChannelModel.create(req.body);
-    if (savedChannel) {
-      res.json({ savedChannel, message: 'Channel successfuly created !' });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: 'Failed to create channel !' });
-  }
-};
-
-const getUserChannels = async (req, res) => {
-  try {
-    const channels = await ChannelModel.find({ ownerId: req.params.id });
-    res.send(channels);
-  } catch (err) {
-    res.status(500).json({ message: 'Failed to retrieve channels' });
-  }
-};
-
 module.exports = { create, getUserChannels };
+
+async function create(req, res) {
+  const existingChannel = await ChannelModel.findOne({ name: req.body.name });
+
+  if (existingChannel) {
+    return res.json({ error: 'The channel already exists.' });
+  }
+
+  try {
+    const channel = await ChannelModel.create(req.body);
+    res.json({ channel });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to create channel !' });
+  }
+}
+
+async function getUserChannels(req, res) {
+  try {
+    const channels = await ChannelModel.find().or(
+      { ownerId: req.params.id },
+      { members: req.params.id }
+    );
+    res.json({ channels });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to retrieve channels' });
+  }
+}
