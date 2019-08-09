@@ -24,7 +24,7 @@ setupAuthRoutes(authRouter);
 setupChannelRoutes(channelRouter);
 
 app.use('/api/auth', authRouter);
-app.use('/api', channelRouter);
+app.use('/api/channels', channelRouter);
 
 // Deployment code
 if (process.env.NODE_ENV == 'production') {

@@ -72,12 +72,12 @@ const auth = {
 };
 
 async function createChannel(formData) {
-  const { data } = await api.post('/channel', formData);
+  const { data } = await api.post('/channels', formData);
   return data;
 }
 
 const getUserChannels = async userId => {
-  const channels = await api.get('/channel/' + userId);
+  const channels = await api.get('/channels/user/' + userId);
   return channels;
 };
 
