@@ -1,41 +1,20 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import Drawer from './drawer';
-import Navigation from './navigation';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-import './dashboard.css';
-
-function Dashboard({ channels }) {
-  const [open, setOpen] = useState(false);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
+function Dashboard({ onClick, history }) {
   return (
-    // TODO: extract parent component and only leave dashboard
-    <div className="parent">
-      <Drawer channels={channels} toggleDrawer={toggleDrawer} isOpen={open} />
-
-      <div className="tabContent">
-        <Navigation toggleDrawer={toggleDrawer} />
-
-        <div className="dashboard">
-          <p>Welcome to your dashboard ! Go ahead and...</p>
-          <div>
-            <input
-              className="searchInput"
-              type="text"
-              placeholder="Find existing channels"
-            />{' '}
-            <span className="actionsDivider">or...</span>{' '}
-            <Link className="createLink" to="/channel/new">
-              Create a new one
-            </Link>
-          </div>
-        </div>
-      </div>
+    <div>
+      <button
+        onClick={() => {
+          window.localStorage.removeItem('token');
+          onClick(null);
+          history.push('/');
+        }}
+      >
+        Logout
+      </button>
     </div>
   );
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);

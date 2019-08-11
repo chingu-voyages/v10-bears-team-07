@@ -4,32 +4,18 @@ import Dashboard from './components/dashboard';
 import Home from './components/home';
 import Login from './components/login';
 import Register from './components/register';
-import ChannelForm from './components/channelForm';
-import { auth, channels } from './services/api';
+import { auth } from './services/api';
 
 function App() {
   const [user, setUser] = useState(null);
-  const [userChannels, setChannels] = useState([]);
-
-  // Temporarily add code to fetch channels inside getCached user
-  // has a number of side effects, like making another request after
-  // register or login is called.
-  // TODO: move this code to drawer parent together with ChannelForm
   useEffect(() => {
     async function getCachedUser() {
-      if (!user) {
-        const { user } = await auth.getCachedUser();
-        setUser(user);
-      } else {
-        const { channels: userChannels } = await channels.getUserChannels(
-          user.id
-        );
-        setChannels(userChannels);
-      }
+      const { user } = await auth.getCachedUser();
+      setUser(user);
     }
 
     getCachedUser();
-  }, [user]);
+  }, []);
 
   return (
     <BrowserRouter>
@@ -53,27 +39,7 @@ function App() {
       <Route
         path="/dashboard"
         render={() =>
-          !user ? (
-            <Redirect to="/login" />
-          ) : (
-            <Dashboard channels={userChannels} onClick={setUser} />
-          )
-        }
-      />
-      {/* TODO: move this code to drawer parent together with ChannelForm */}
-      <Route
-        path="/channel/new"
-        render={() =>
-          !user ? (
-            <Redirect to="/login" />
-          ) : (
-            <ChannelForm
-              user={user}
-              onSubmit={channel => {
-                setChannels([...userChannels, channel]);
-              }}
-            />
-          )
+          !user ? <Redirect to="/login" /> : <Dashboard onClick={setUser} />
         }
       />
     </BrowserRouter>
