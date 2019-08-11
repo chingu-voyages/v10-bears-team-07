@@ -6,6 +6,8 @@ import Dashboard from './dashboard';
 import ChannelForm from './channelForm';
 import { channels } from '../services/api';
 
+import './protectedApp.css';
+
 function ProtectedApp({ user }) {
   const [userChannels, setChannels] = useState([]);
   useEffect(() => {
@@ -13,19 +15,20 @@ function ProtectedApp({ user }) {
       setChannels(data.channels);
     });
   }, [user]);
+
   const [open, setOpen] = useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
   return (
-    <div className="parent">
+    <div className="app">
       <Drawer
         channels={userChannels}
         toggleDrawer={toggleDrawer}
         isOpen={open}
       />
-      <div className="tabContent">
+      <div className="tab">
         <Navigation toggleDrawer={toggleDrawer} />
 
         <Route path="/dashboard" component={Dashboard} />
