@@ -40,9 +40,6 @@ const auth = {
 
     if (!data.error) {
       window.localStorage.setItem('token', data.user.token);
-      window.localStorage.setItem('username', data.user.username);
-      window.localStorage.setItem('id', data.user.id);
-
       init({ token: data.user.token });
     }
 
@@ -53,9 +50,6 @@ const auth = {
 
     if (!data.error) {
       window.localStorage.setItem('token', data.user.token);
-      window.localStorage.setItem('username', data.user.username);
-      window.localStorage.setItem('id', data.user.id);
-
       init({ token: data.user.token });
     }
 
@@ -63,9 +57,6 @@ const auth = {
   },
   logout() {
     window.localStorage.removeItem('token');
-    window.localStorage.removeItem('username');
-    window.localStorage.removeItem('id');
-
     init({ token: null });
     return Promise.resolve({ user: null });
   }
