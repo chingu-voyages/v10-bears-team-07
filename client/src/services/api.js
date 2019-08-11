@@ -79,6 +79,10 @@ const channels = {
   async getUserChannels(userId) {
     const { data } = await api.get('/channels/user/' + userId);
     return data;
+  },
+  async getChannels(keyword = '') {
+    const { data } = await api.get(`/channels?keyword=${keyword}`);
+    return data;
   }
 };
 
