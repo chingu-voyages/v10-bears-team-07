@@ -15,10 +15,16 @@ app.use(
 );
 
 var { setupAuthRoutes } = require('./src/routes/auth');
-// eslint-disable-next-line new-cap
+var { setupChannelRoutes } = require('./src/routes/channels');
+
 var authRouter = express.Router();
+var channelRouter = express.Router();
+
 setupAuthRoutes(authRouter);
+setupChannelRoutes(channelRouter);
+
 app.use('/api/auth', authRouter);
+app.use('/api/channels', channelRouter);
 
 // Deployment code
 if (process.env.NODE_ENV == 'production') {

@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './drawer.css';
 
-function Drawer({ isOpen, toggleDrawer }) {
+function Drawer({ channels, isOpen, toggleDrawer }) {
   const drawerClass = `drawer${isOpen ? ' open' : ''}`;
   const backdropClass = `backdrop${isOpen ? ' open' : ''}`;
+
   return (
     <>
       <div className={backdropClass} onClick={toggleDrawer}></div>
@@ -18,30 +20,31 @@ function Drawer({ isOpen, toggleDrawer }) {
           <button className="optionsButton">⋮</button>
         </div>
 
-        <Channels />
+        <Channels channels={channels} />
       </div>
     </>
   );
 }
 
-function Channels() {
+function Channels({ channels }) {
+  if (!channels) {
+    return '';
+  }
+
   return (
     <nav className="channels">
       <ul>
-        <li>
-          <a href="#">
-            <h3 className="channelName">Channel 1</h3>
-            <p className="channelDescription">Channel 1 description</p>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <h3 className="channelName">Channel 2</h3>
-            <p className="channelDescription">Channel 2 description</p>
-          </a>
-        </li>
+        {channels.map(channel => (
+          <li key={channel._id}>
+            <Link to={`/channels/${channel.name}`}>
+              <h3 className="channelName">{channel.name}</h3>
+              <p className="channelDescription">{channel.description}</p>
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
 }
+
 export default Drawer;
