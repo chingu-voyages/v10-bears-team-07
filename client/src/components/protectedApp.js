@@ -1,7 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Route } from 'react-router-dom';
+import Drawer from './drawer';
+import Navigation from './navigation';
+import Dashboard from './dashboard';
+import ChannelForm from './channelForm';
+import { channels } from '../services/api';
 
-function ProtectedApp() {
-  return <div>protected App components here !</div>;
+function ProtectedApp({ user }) {
+  const [userChannels, setChannels] = useState([]);
+  useEffect(() => {
+    channels.getUserChannels(user.id).then(data => {
+      setChannels(data.channels);
+    });
+  }, [user]);
+  const [open, setOpen] = useState(false);
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
+
+  return (
+    <div className="parent">
+      <Drawer
+        channels={userChannels}
+        toggleDrawer={toggleDrawer}
+        isOpen={open}
+      />
+      <div className="tabContent">
+        <Navigation toggleDrawer={toggleDrawer} />
+
+        <Route path="/dashboard" component={Dashboard} />
+        <Route
+          path="/channels/new"
+          render={() => (
+            <ChannelForm
+              user={user}
+              onSubmit={channel => {
+                setChannels([...userChannels, channel]);
+              }}
+            />
+          )}
+        />
+      </div>
+    </div>
+  );
 }
 
 export default ProtectedApp;
