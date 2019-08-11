@@ -14,8 +14,16 @@ app.use(
   morgan('dev')
 );
 
+<<<<<<< HEAD
 var setupRoutes = require('./src/routes/');
 setupRoutes(app);
+=======
+var { setupAuthRoutes } = require('./src/routes/auth');
+// eslint-disable-next-line new-cap
+var authRouter = express.Router();
+setupAuthRoutes(authRouter);
+app.use('/api/auth', authRouter);
+>>>>>>> Revert "Feature/channel creation"
 
 // Deployment code
 if (process.env.NODE_ENV == 'production') {

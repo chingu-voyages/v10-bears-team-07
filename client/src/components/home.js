@@ -14,7 +14,7 @@ function Home({ isLoggedIn }) {
           margin: '0 auto',
           background: 'rgba(52, 52, 52, 0.5)'
         }}
-      />
+      ></div>
 
       <div className="landing__content">
         <h1 className="landing__title">Chat about what matters to you</h1>
