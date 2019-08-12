@@ -23,9 +23,17 @@ function Dashboard({ history, user, onChannelJoin }) {
   async function joinChannel(event) {
     const channelId = event.target.id;
     const userId = props.user.id;
-    const result = await channels.joinChannel(channelId, userId);
+    const result = await channels.manageChannel(channelId, userId, 'join');
     const channel = result.data;
     setChannel(channel);
+  }
+
+  async function leaveChannel(event) {
+    const channelId = event.target.id;
+    const userId = props.user.id;
+    const result = await channels.manageChannel(channelId, userId, 'leave');
+    const channel = result.data;
+    console.log(channel);
   }
 
   return (
@@ -78,7 +86,13 @@ function Dashboard({ history, user, onChannelJoin }) {
                         join channel
                       </button>
                     ) : !isChannelOwner(channel) && isChannelMember(channel) ? (
-                      <button className="btn btn-danger">leave channel</button>
+                      <button
+                        className="btn btn-danger"
+                        id={channel._id}
+                        onClick={leaveChannel}
+                      >
+                        leave channel
+                      </button>
                     ) : null}
                   </td>
                 </tr>
