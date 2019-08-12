@@ -4,7 +4,7 @@ import { channels } from '../services/api';
 
 import './dashboard.css';
 
-function Dashboard() {
+function Dashboard({ user }) {
   const [fetchedChannels, setChannels] = useState(undefined);
   const [searchKeyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
@@ -38,6 +38,16 @@ function Dashboard() {
                 <tr key={channel._id} className="channel">
                   <td className="channel__name">{channel.name}</td>
                   <td className="channel__desc">{channel.description}</td>
+                  <td>
+                    {canUserJoin(user.id, channel) && (
+                      <button
+                        className="btn btn-info"
+                        onClick={() => joinChannel(channel._id)}
+                      >
+                        Join
+                      </button>
+                    )}
+                  </td>
                   <td className="channel__count">
                     {channel.members.length + 1}
                   </td>
@@ -57,6 +67,18 @@ function Dashboard() {
 
     setChannels(result.channels);
   }
+
+  async function joinChannel(channelId) {
+    const { error } = await channels.joinChannel(channelId, user.id);
+    if (error) {
+      return setError(error);
+    }
+  }
 }
 
 export default Dashboard;
+
+// Helpers ***************************
+function canUserJoin(userId, channel) {
+  return userId !== channel.ownerId && !channel.members.includes(userId);
+}

@@ -31,7 +31,7 @@ function ProtectedApp({ user }) {
       <div className="tab">
         <Navigation toggleDrawer={toggleDrawer} />
 
-        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/dashboard" render={() => <Dashboard user={user} />} />
         <Route
           path="/channels/new"
           render={() => (
