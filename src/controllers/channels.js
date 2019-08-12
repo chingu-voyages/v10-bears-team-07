@@ -1,6 +1,6 @@
 const ChannelModel = require('../models/channel');
 
-module.exports = { create, getUserChannels, findByNameMatch };
+module.exports = { create, getUserChannels, findByNameMatch, addNewMember };
 
 async function create(req, res) {
   const existingChannel = await ChannelModel.findOne({ name: req.body.name });
@@ -39,4 +39,17 @@ async function findByNameMatch(req, res) {
   }
 
   return res.json({ channels });
+}
+
+async function addNewMember(req, res) {
+  try {
+    const channel = await ChannelModel.findOneAndUpdate(
+      { _id: req.params.channelId },
+      { $addToSet: { members: req.params.userId } },
+      { new: true }
+    );
+    res.send(channel);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve channels' });
+  }
 }
