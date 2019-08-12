@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { channels } from '../services/api';
 
 import './dashboard.css';
 
 function Dashboard({ history, user, onChannelJoin }) {
   const [fetchedChannels, setChannels] = useState(undefined);
+  const [joinedChannel, setChannel] = useState(undefined);
   const [searchKeyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
 
@@ -22,7 +23,9 @@ function Dashboard({ history, user, onChannelJoin }) {
   async function joinChannel(event) {
     const channelId = event.target.id;
     const userId = props.user.id;
-    const channel = await channels.joinChannel(channelId, userId);
+    const result = await channels.joinChannel(channelId, userId);
+    const channel = result.data;
+    setChannel(channel);
   }
 
   return (
@@ -83,6 +86,9 @@ function Dashboard({ history, user, onChannelJoin }) {
             </tbody>
           </table>
         ))}
+      {joinedChannel ? (
+        <Redirect to={`/channels/${joinedChannel.name}`} />
+      ) : null}
     </div>
   );
 
