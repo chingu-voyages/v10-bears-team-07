@@ -4,7 +4,7 @@ import { channels } from '../services/api';
 
 import './dashboard.css';
 
-function Dashboard({ user, onChannelJoin }) {
+function Dashboard({ history, user, onChannelJoin }) {
   const [fetchedChannels, setChannels] = useState(undefined);
   const [searchKeyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
@@ -75,6 +75,7 @@ function Dashboard({ user, onChannelJoin }) {
     }
 
     onChannelJoin(channel);
+    history.push(`channels/${channelId}`);
   }
 }
 

@@ -33,7 +33,13 @@ function ProtectedApp({ user }) {
 
         <Route
           path="/dashboard"
-          render={() => <Dashboard user={user} onChannelJoin={addChannel} />}
+          render={({ history }) => (
+            <Dashboard
+              history={history}
+              user={user}
+              onChannelJoin={addChannel}
+            />
+          )}
         />
         <Route
           path="/channels/new"
