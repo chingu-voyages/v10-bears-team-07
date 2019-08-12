@@ -19,10 +19,9 @@ async function create(req, res) {
 
 async function getUserChannels(req, res) {
   try {
-    const channels = await ChannelModel.find().or([
-      { ownerId: req.params.id },
-      { members: req.params.id }
-    ]);
+    const channels = await ChannelModel.find({
+      $or: [{ ownerId: req.params.id }, { members: req.params.id }]
+    });
     res.json({ channels });
   } catch (err) {
     res.status(500).json({ error: "Failed to retrieve channels" });
@@ -46,9 +45,12 @@ async function findByNameMatch(req, res) {
 
 async function addNewMember(req, res) {
   try {
+    const action = req.params.action;
     const channel = await ChannelModel.findOneAndUpdate(
       { _id: req.params.channelId },
-      { $addToSet: { members: req.params.userId } },
+      action === "join"
+        ? { $addToSet: { members: req.params.userId } }
+        : { $pull: { members: req.params.userId } },
       { new: true }
     );
     res.json({ channel });

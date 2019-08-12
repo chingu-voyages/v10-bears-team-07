@@ -1,8 +1,8 @@
-const channelsController = require('../controllers/channels');
+const channelsController = require("../controllers/channels");
 
 module.exports = function setupChannelsRoutes(router) {
-  router.get('/', channelsController.findByNameMatch);
-  router.get('/user/:id', channelsController.getUserChannels);
-  router.post('/', channelsController.create);
-  router.put('/:channelId/:userId', channelsController.addNewMember);
+  router.get("/", channelsController.findByNameMatch);
+  router.get("/user/:id", channelsController.getUserChannels);
+  router.post("/", channelsController.create);
+  router.put("/:channelId/:userId/:action", channelsController.addNewMember);
 };
