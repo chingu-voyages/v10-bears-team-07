@@ -84,8 +84,10 @@ const channels = {
     const { data } = await api.get(`/channels?keyword=${keyword}`);
     return data;
   },
-  async joinChannel(channelId, userId) {
-    const channel = await api.put('/channels/' + channelId + '/' + userId);
+  async manageChannel(channelId, userId, action) {
+    const channel = await api.put(
+      '/channels/' + channelId + '/' + userId + '/' + action
+    );
     return channel;
   }
 };
