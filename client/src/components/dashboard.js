@@ -4,10 +4,26 @@ import { channels } from '../services/api';
 
 import './dashboard.css';
 
-function Dashboard() {
+function Dashboard(props) {
   const [fetchedChannels, setChannels] = useState(undefined);
   const [searchKeyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
+
+  function isChannelMember(channel) {
+    const userId = props.user.id;
+    return channel.members.includes(userId);
+  }
+
+  function isChannelOwner(channel) {
+    const userId = props.user.id;
+    return channel.ownerId === userId;
+  }
+
+  async function joinChannel(event) {
+    const channelId = event.target.id;
+    const userId = props.user.id;
+    const channel = await channels.joinChannel(channelId, userId);
+  }
 
   return (
     <div className="dashboard">
@@ -40,6 +56,19 @@ function Dashboard() {
                   <td className="channel__desc">{channel.description}</td>
                   <td className="channel__count">
                     {channel.members.length + 1}
+                  </td>
+                  <td>
+                    {!isChannelMember(channel) && !isChannelOwner(channel) ? (
+                      <button
+                        className="btn btn-info"
+                        id={channel._id}
+                        onClick={joinChannel}
+                      >
+                        join channel
+                      </button>
+                    ) : !isChannelOwner(channel) && isChannelMember(channel) ? (
+                      <button className="btn btn-danger">leave channel</button>
+                    ) : null}
                   </td>
                 </tr>
               ))}
