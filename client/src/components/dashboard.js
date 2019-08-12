@@ -36,6 +36,7 @@ function Dashboard(props) {
     console.log(channel);
   }
 
+function Dashboard({ onClick, history }) {
   return (
     <div className="dashboard">
       <div className="channelControls">
@@ -108,4 +109,4 @@ function Dashboard(props) {
   }
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);
