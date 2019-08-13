@@ -4,7 +4,7 @@ import { channels } from '../services/api';
 
 import './dashboard.css';
 
-function Dashboard({ user }) {
+function Dashboard({ user, onChannelJoin }) {
   const [fetchedChannels, setChannels] = useState(undefined);
   const [searchKeyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
@@ -69,10 +69,12 @@ function Dashboard({ user }) {
   }
 
   async function joinChannel(channelId) {
-    const { error } = await channels.joinChannel(channelId, user.id);
+    const { error, channel } = await channels.joinChannel(channelId, user.id);
     if (error) {
       return setError(error);
     }
+
+    onChannelJoin(channel);
   }
 }
 
