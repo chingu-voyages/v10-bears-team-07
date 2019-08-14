@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import './drawer.css';
 
 function Drawer({ channels, isOpen, toggleDrawer }) {
+  const [filterKeyword, setFilterKeyword] = useState('');
   const drawerClass = `drawer${isOpen ? ' open' : ''}`;
   const backdropClass = `backdrop${isOpen ? ' open' : ''}`;
 
@@ -14,13 +15,19 @@ function Drawer({ channels, isOpen, toggleDrawer }) {
         <div className="drawerActions">
           <input
             className="filterInput"
+            onChange={e => setFilterKeyword(e.target.value)}
+            value={filterKeyword}
             type="text"
             placeholder="Filter your channels"
           />{' '}
           <button className="optionsButton">⋮</button>
         </div>
 
-        <Channels channels={channels} />
+        <Channels
+          channels={channels.filter(channel =>
+            channel.name.includes(filterKeyword)
+          )}
+        />
       </div>
     </>
   );
