@@ -39,14 +39,12 @@ function Dashboard({ history, user, onChannelJoin }) {
                   <td className="channel__name">{channel.name}</td>
                   <td className="channel__desc">{channel.description}</td>
                   <td>
-                    {canUserJoin(user.id, channel) && (
-                      <button
-                        className="btn btn-info"
-                        onClick={() => joinChannel(channel._id)}
-                      >
-                        Join
-                      </button>
-                    )}
+                    <button
+                      className="btn btn-info"
+                      onClick={() => joinChannel(channel._id)}
+                    >
+                      Join
+                    </button>
                   </td>
                   <td className="channel__count">
                     {channel.members.length + 1}
@@ -60,7 +58,10 @@ function Dashboard({ history, user, onChannelJoin }) {
   );
 
   async function searchChannels() {
-    const result = await channels.getChannels(searchKeyword);
+    const result = await channels.getChannels({
+      userId: user.id,
+      keyword: searchKeyword
+    });
     if (result.error) {
       return setError(result);
     }
@@ -80,8 +81,3 @@ function Dashboard({ history, user, onChannelJoin }) {
 }
 
 export default Dashboard;
-
-// Helpers ***************************
-function canUserJoin(userId, channel) {
-  return userId !== channel.ownerId && !channel.members.includes(userId);
-}
