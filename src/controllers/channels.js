@@ -19,10 +19,10 @@ async function create(req, res) {
 
 async function getUserChannels(req, res) {
   try {
-    const channels = await ChannelModel.find().or(
+    const channels = await ChannelModel.find().or([
       { ownerId: req.params.id },
       { members: req.params.id }
-    );
+    ]);
     res.json({ channels });
   } catch (err) {
     res.status(500).json({ error: 'Failed to retrieve channels' });
@@ -30,10 +30,13 @@ async function getUserChannels(req, res) {
 }
 
 async function findByNameMatch(req, res) {
-  const nameMatch = new RegExp(req.query.keyword, 'i');
+  const { userId, keyword } = req.query;
+  const nameMatch = new RegExp(keyword, 'i');
 
   try {
-    var channels = await ChannelModel.find({ name: nameMatch }).lean();
+    var channels = await ChannelModel.find({ name: nameMatch })
+      .nor([{ ownerId: userId }, { members: userId }])
+      .lean();
   } catch (error) {
     return res.status(500).json({ error: 'internal server error' });
   }
