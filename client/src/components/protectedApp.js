@@ -31,21 +31,27 @@ function ProtectedApp({ user }) {
       <div className="tab">
         <Navigation toggleDrawer={toggleDrawer} />
 
-        <Route path="/dashboard" component={Dashboard} />
         <Route
-          path="/channels/new"
-          render={() => (
-            <ChannelForm
+          path="/dashboard"
+          render={({ history }) => (
+            <Dashboard
+              history={history}
               user={user}
-              onSubmit={channel => {
-                setChannels([...userChannels, channel]);
-              }}
+              onChannelJoin={addChannel}
             />
           )}
+        />
+        <Route
+          path="/channels/new"
+          render={() => <ChannelForm user={user} onSubmit={addChannel} />}
         />
       </div>
     </div>
   );
+
+  function addChannel(channel) {
+    setChannels([...userChannels, channel]);
+  }
 }
 
 export default ProtectedApp;
