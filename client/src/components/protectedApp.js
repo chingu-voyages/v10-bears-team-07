@@ -5,6 +5,7 @@ import Navigation from './navigation';
 import Dashboard from './dashboard';
 import ChannelForm from './channelForm';
 import Channel from './channel';
+import ChatPage from './chatPage';
 import { channels } from '../services/api';
 
 import './protectedApp.css';
@@ -37,6 +38,16 @@ function ProtectedApp({ user }) {
           render={({ history }) => (
             <Dashboard
               history={history}
+          path="/channels/chat/:id"
+          render={routeParams => (
+            <ChatPage user={user} routeParams={routeParams} />
+          )}
+        />
+        <Route
+          path="/channels/new"
+          render={() => (
+            <ChannelForm
+
               user={user}
               onChannelJoin={addChannel}
             />
