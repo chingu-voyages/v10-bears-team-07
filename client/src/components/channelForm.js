@@ -86,7 +86,7 @@ function ChannelForm({ history, user, onSubmit }) {
     }
 
     onSubmit(channel);
-    history.push(`/${channel.name}`);
+    history.push(`/${channel._id}`);
   }
 }
 
