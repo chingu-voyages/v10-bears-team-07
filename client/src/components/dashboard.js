@@ -33,7 +33,6 @@ function Dashboard({ history, user, onChannelJoin }) {
     const userId = props.user.id;
     const result = await channels.manageChannel(channelId, userId, 'leave');
     const channel = result.data;
-    console.log(channel);
   }
 
   return (
@@ -101,7 +100,7 @@ function Dashboard({ history, user, onChannelJoin }) {
           </table>
         ))}
       {joinedChannel ? (
-        <Redirect to={`/channels/${joinedChannel.name}`} />
+        <Redirect to={`/channels/chat/${joinedChannel._id}`} />
       ) : null}
     </div>
   );
@@ -130,3 +129,9 @@ function Dashboard({ history, user, onChannelJoin }) {
 }
 
 export default Dashboard;
+
+// Helpers ***************************
+function canUserJoin(userId, channel) {
+  return userId !== channel.ownerId && !channel.members.includes(userId);
+}
+

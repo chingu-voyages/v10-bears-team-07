@@ -4,5 +4,5 @@ module.exports = function setupChannelsRoutes(router) {
   router.get("/", channelsController.findByNameMatch);
   router.get("/user/:id", channelsController.getUserChannels);
   router.post("/", channelsController.create);
-  router.put("/:channelId/:userId/:action", channelsController.addNewMember);
+  router.put("/:channelId/:userId/:action", channelsController.manageMember);
 };

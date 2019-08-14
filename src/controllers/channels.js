@@ -1,6 +1,6 @@
 const ChannelModel = require("../models/channel");
 
-module.exports = { create, getUserChannels, findByNameMatch, addNewMember };
+module.exports = { create, getUserChannels, findByNameMatch, manageMember };
 
 async function create(req, res) {
   const existingChannel = await ChannelModel.findOne({ name: req.body.name });
@@ -43,7 +43,7 @@ async function findByNameMatch(req, res) {
   return res.json({ channels });
 }
 
-async function addNewMember(req, res) {
+async function manageMember(req, res) {
   try {
     const action = req.params.action;
     const channel = await ChannelModel.findOneAndUpdate(
