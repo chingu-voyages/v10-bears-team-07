@@ -3,7 +3,7 @@
   width: 250px;
   border-right: 2px solid hsl(0, 0%, 85%);
   font-size: 0.9em;
-  padding: 0.5em;
+  padding: 0.5em 0;
 }
 
 .drawerActions {
@@ -11,19 +11,20 @@
 }
 
 .filterInput {
-  width: 100%;
+  min-width: 0;
   border: 2px dashed hsl(0, 0%, 85%);
   border-radius: 2px;
-  margin-left: 0.5em;
+  margin-left: 1em;
   padding: 0 0.5em;
 }
 
 .optionsButton {
+  flex-shrink: 0;
+  width: 40px;
   background: transparent;
   border: 0;
   font-size: 1.5em;
   font-weight: 700;
-  padding-left: 0.5em;
 }
 
 /* ==========channels============ */
