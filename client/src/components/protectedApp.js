@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Drawer from './drawer';
 import Navigation from './navigation';
 import Dashboard from './dashboard';
@@ -56,13 +56,16 @@ function ProtectedApp({ user }) {
           />
           <Route
             path="/channels/:id"
-            render={({ match }) => (
-              <Channel
-                channel={userChannels.find(
-                  ({ _id }) => _id === match.params.id
-                )}
-              />
-            )}
+            render={({ match }) => {
+              const channel = userChannels.find(
+                ({ _id }) => _id === match.params.id
+              );
+              return !channel ? (
+                <Redirect to="/dashboard" />
+              ) : (
+                <Channel channel={channel} />
+              );
+            }}
           />
         </Switch>
       </div>
