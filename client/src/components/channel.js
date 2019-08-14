@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-// A sample of messages, represents the preferred way to represent the data
+import './channel.css';
+
+// A sample of messages
 const messages = [
   {
     author: 'username1',
@@ -35,12 +37,13 @@ function Channel({ channel }) {
   const [message, setMessage] = useState('');
 
   return (
-    <div>
-      <div>
+    <div className="channelPage">
+      <div className="messages">
         <MessageBlock messages={messages} />
       </div>
-      <form>
+      <form className="controls">
         <textarea
+          className="inputArea"
           onChange={e => setMessage(e.target.value)}
           value={message}
           type="text"
@@ -69,16 +72,20 @@ function MessageBlock({ messages }) {
   }
 
   return messageBatches.map(({ author, formattedDate, messageBodies }) => (
-    <div>
-      <div>
-        <img src="https://via.placeholder.com/200" alt="user" />
-        <h2>
+    <div className="messageMedia">
+      <div className="media-top">
+        <img
+          className="media-picture"
+          src="https://via.placeholder.com/200"
+          alt="user"
+        />
+        <h2 className="media-info">
           {author}
           <time>{formattedDate}</time>
         </h2>
       </div>
 
-      <div>
+      <div className="media-body">
         {messageBodies.map(body => (
           <p>{body}</p>
         ))}
