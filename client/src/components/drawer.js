@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import './drawer.css';
 
-function Drawer({ channels, isOpen, toggleDrawer }) {
+function Drawer({ channels, pathname, isOpen, toggleDrawer }) {
   const [filterKeyword, setFilterKeyword] = useState('');
   const drawerClass = `drawer${isOpen ? ' open' : ''}`;
   const backdropClass = `backdrop${isOpen ? ' open' : ''}`;
@@ -28,6 +28,12 @@ function Drawer({ channels, isOpen, toggleDrawer }) {
             channel.name.includes(filterKeyword)
           )}
         />
+
+        {pathname !== '/dashboard' && (
+          <Link to="/dashboard">
+            Go to Dashboard
+          </Link>
+        )}
       </div>
     </>
   );
