@@ -1,4 +1,7 @@
 .drawer {
+  --primary-color: hsl(216, 54%, 61%);
+  --accent-color: hsl(25, 75%, 47%);
+
   flex: 0 0 auto;
 
   height: 100%;
@@ -29,6 +32,21 @@
   border: 0;
   font-size: 1.5em;
   font-weight: 700;
+}
+
+.dashboardLink {
+  color: var(--primary-color);
+  text-align: center;
+  font-weight: 700;
+  margin: 0 2em;
+  margin-top: auto;
+  border: 2px solid var(--primary-color);
+  border-radius: 3px;
+  padding: 5px 0;
+}
+.dashboardLink:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
 }
 
 /* ==========channels============ */

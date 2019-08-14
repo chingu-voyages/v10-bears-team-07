@@ -30,7 +30,7 @@ function Drawer({ channels, pathname, isOpen, toggleDrawer }) {
         />
 
         {pathname !== '/dashboard' && (
-          <Link to="/dashboard">
+          <Link className="dashboardLink" to="/dashboard">
             Go to Dashboard
           </Link>
         )}
