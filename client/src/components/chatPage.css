@@ -1,0 +1,13 @@
+#chat_form {
+  position: fixed;
+  bottom: 0;
+  margin-left: 5px;
+  width: 500px;
+  background-color: lightgray;
+  padding: 5px;
+  /*overflow: hidden;*/
+}
+/*#chat_message {
+  width: 100%;
+}
+*/

@@ -39,16 +39,6 @@ function ProtectedApp({ user, pathname }) {
           render={({ history }) => (
             <Dashboard
               history={history}
-          path="/channels/chat/:id"
-          render={routeParams => (
-            <ChatPage user={user} routeParams={routeParams} />
-          )}
-        />
-        <Route
-          path="/channels/new"
-          render={() => (
-            <ChannelForm
-
               user={user}
               onChannelJoin={addChannel}
             />
@@ -80,6 +70,16 @@ function ProtectedApp({ user, pathname }) {
             }}
           />
         </Switch>
+        <Route
+          path="/channels/:id"
+          render={routeParams => (
+            <ChatPage user={user} routeParams={routeParams} />
+          )}
+        />
+        <Route
+          path="/channel/new"
+          render={() => <ChannelForm user={user} onChannelJoin={addChannel} />}
+        />
       </div>
     </div>
   );
