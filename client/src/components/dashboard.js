@@ -1,39 +1,13 @@
 import React, { useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { channels } from '../services/api';
 
 import './dashboard.css';
 
 function Dashboard({ history, user, onChannelJoin }) {
   const [fetchedChannels, setChannels] = useState(undefined);
-  const [joinedChannel, setChannel] = useState(undefined);
   const [searchKeyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
-
-  function isChannelMember(channel) {
-    const userId = props.user.id;
-    return channel.members.includes(userId);
-  }
-
-  function isChannelOwner(channel) {
-    const userId = props.user.id;
-    return channel.ownerId === userId;
-  }
-
-  async function joinChannel(event) {
-    const channelId = event.target.id;
-    const userId = props.user.id;
-    const result = await channels.manageChannel(channelId, userId, 'join');
-    const channel = result.data;
-    setChannel(channel);
-  }
-
-  async function leaveChannel(event) {
-    const channelId = event.target.id;
-    const userId = props.user.id;
-    const result = await channels.manageChannel(channelId, userId, 'leave');
-    const channel = result.data;
-  }
 
   return (
     <div className="dashboard">
@@ -49,7 +23,7 @@ function Dashboard({ history, user, onChannelJoin }) {
           placeholder="Find existing channels"
         />{' '}
         <span className="actionsDivider">or...</span>{' '}
-        <Link className="createLink" to="/channels/new">
+        <Link className="createLink" to="/channel/new">
           Create a new one
         </Link>
       </div>
@@ -75,33 +49,11 @@ function Dashboard({ history, user, onChannelJoin }) {
                   <td className="channel__count">
                     {channel.members.length + 1}
                   </td>
-                  <td>
-                    {!isChannelMember(channel) && !isChannelOwner(channel) ? (
-                      <button
-                        className="btn btn-info"
-                        id={channel._id}
-                        onClick={joinChannel}
-                      >
-                        join channel
-                      </button>
-                    ) : !isChannelOwner(channel) && isChannelMember(channel) ? (
-                      <button
-                        className="btn btn-danger"
-                        id={channel._id}
-                        onClick={leaveChannel}
-                      >
-                        leave channel
-                      </button>
-                    ) : null}
-                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         ))}
-      {joinedChannel ? (
-        <Redirect to={`/channels/chat/${joinedChannel._id}`} />
-      ) : null}
     </div>
   );
 
@@ -134,4 +86,3 @@ export default Dashboard;
 function canUserJoin(userId, channel) {
   return userId !== channel.ownerId && !channel.members.includes(userId);
 }
-

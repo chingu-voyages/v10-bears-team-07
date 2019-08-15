@@ -77,6 +77,14 @@ const channels = {
     );
     return data;
   },
+  async getMessages(channelId) {
+    const { data } = await api.get(`/channels/${channelId}`);
+    return data;
+  },
+  async updateChannelMessages(channelId, message) {
+    const { data } = await api.put(`/channels/${channelId}`, message);
+    return data;
+  },
   async joinChannel(channelId, userId) {
     const { data } = await api.put(`channels/${channelId}/${userId}`);
     return data;

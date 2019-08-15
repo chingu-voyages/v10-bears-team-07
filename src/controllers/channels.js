@@ -1,6 +1,13 @@
 const ChannelModel = require("../models/channel");
 
-module.exports = { create, getUserChannels, findByNameMatch, manageMember };
+module.exports = {
+  create,
+  getUserChannels,
+  findByNameMatch,
+  addMember,
+  getMessages,
+  updateChannelMessages
+};
 
 async function create(req, res) {
   const existingChannel = await ChannelModel.findOne({ name: req.body.name });
@@ -43,18 +50,40 @@ async function findByNameMatch(req, res) {
   return res.json({ channels });
 }
 
-async function manageMember(req, res) {
+async function addMember(req, res) {
   try {
-    const action = req.params.action;
     const channel = await ChannelModel.findOneAndUpdate(
       { _id: req.params.channelId },
-      action === "join"
-        ? { $addToSet: { members: req.params.userId } }
-        : { $pull: { members: req.params.userId } },
+      { $addToSet: { members: req.params.userId } },
       { new: true }
     );
     res.json({ channel });
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve channels" });
+  }
+}
+
+async function updateChannelMessages(req, res) {
+  try {
+    const channel = await ChannelModel.findOneAndUpdate(
+      { _id: req.params.channelId },
+      { $addToSet: { messages: req.body } },
+      { new: true }
+    );
+    res.json({ channel });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve channels" });
+  }
+}
+
+async function getMessages(req, res) {
+  try {
+    const channel = await ChannelModel.findById(req.params.id, "messages").sort(
+      { createdAt: "asc" }
+    );
+    const messages = channel.messages;
+    res.json({ messages });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to retrieve messages" });
   }
 }
