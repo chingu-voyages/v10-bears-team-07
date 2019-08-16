@@ -21,7 +21,8 @@
     "jsonwebtoken": "^8.5.1",
     "lodash.omit": "^4.5.0",
     "mongoose": "^5.6.3",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
