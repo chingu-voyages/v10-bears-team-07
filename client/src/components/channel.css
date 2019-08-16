@@ -50,6 +50,8 @@
 }
 
 .controls {
+  display: flex;
+  justify-content: space-around;
   height: 50px;
   border-top: 2px solid #aaa;
   padding: 5px calc(7px + 2%);
@@ -65,4 +67,12 @@
 }
 .inputArea:focus {
   outline: none;
+}
+.formButton {
+  border: 2px dashed #aaa;
+  border-left: 0;
+  height: 100%;
+  background-color: darkgray;
+  padding-right: 10px;
+  margin-left: 3px;
 }
