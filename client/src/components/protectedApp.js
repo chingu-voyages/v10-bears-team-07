@@ -5,7 +5,6 @@ import Navigation from './navigation';
 import Dashboard from './dashboard';
 import ChannelForm from './channelForm';
 import Channel from './channel';
-import ChatPage from './chatPage';
 import { channels } from '../services/api';
 
 import './protectedApp.css';
@@ -57,28 +56,11 @@ function ProtectedApp({ user }) {
           />
           <Route
             path="/channels/:id"
-            render={({ match }) => {
-              const channel = userChannels.find(
-                ({ _id }) => _id === match.params.id
-              );
-              return !channel ? (
-                <Redirect to="/dashboard" />
-              ) : (
-                <Channel channel={channel} />
-              );
-            }}
+            render={routeParams => (
+              <Channel user={user} routeParams={routeParams} />
+            )}
           />
         </Switch>
-        <Route
-          path="/channels/:id"
-          render={routeParams => (
-            <ChatPage user={user} routeParams={routeParams} />
-          )}
-        />
-        <Route
-          path="/channel/new"
-          render={() => <ChannelForm user={user} onChannelJoin={addChannel} />}
-        />
       </div>
     </div>
   );
