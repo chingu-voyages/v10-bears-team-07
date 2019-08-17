@@ -23,9 +23,6 @@ var server = app.listen(chatPort);
 var io = require('socket.io').listen(server);
 
 io.on('connection', socket => {
-  console.log('connected');
-  console.log(socket.nsp.name);
-  console.log(socket.handshake.url);
   socket.on('join', data => {
     socket.join(data.room);
     io.in(data.room).emit('new', 'Bonne arrivée');

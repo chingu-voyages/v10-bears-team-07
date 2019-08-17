@@ -55,7 +55,6 @@ function Channel({ routeParams, user }) {
   });
 
   socket.on('message', message => {
-    console.log(message);
     setMessages(message);
   });
 
@@ -65,9 +64,7 @@ function Channel({ routeParams, user }) {
       authorId: user.id,
       text: document.getElementById('chat_message').value
     };
-    console.log(messg);
     channels.updateChannelMessages(id, messg).then(data => {
-      console.log(data.channel);
       const message = data.channel.messages;
       socket.emit('message', { room, message });
       document.getElementById('chat_message').value = '';
