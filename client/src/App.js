@@ -44,8 +44,12 @@ function App() {
         {/* Needs to come after the other routes */}
         <Route
           path="/"
-          render={() =>
-            !user ? <Redirect to="/login" /> : <ProtectedApp user={user} />
+          render={({ location }) =>
+            !user ? (
+              <Redirect to="/login" />
+            ) : (
+              <ProtectedApp pathname={location.pathname} user={user} />
+            )
           }
         />
       </Switch>

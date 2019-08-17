@@ -9,7 +9,7 @@ import { channels } from '../services/api';
 
 import './protectedApp.css';
 
-function ProtectedApp({ user }) {
+function ProtectedApp({ user, pathname }) {
   const [userChannels, setChannels] = useState([]);
   useEffect(() => {
     channels.getUserChannels(user.id).then(data => {
@@ -26,6 +26,7 @@ function ProtectedApp({ user }) {
     <div className="app">
       <Drawer
         channels={userChannels}
+        pathname={pathname}
         toggleDrawer={toggleDrawer}
         isOpen={open}
       />
