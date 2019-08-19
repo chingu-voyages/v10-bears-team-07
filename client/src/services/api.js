@@ -83,7 +83,6 @@ const channels = {
   },
   async updateChannelMessages(channelId, message) {
     const { data } = await api.put(`/channels/${channelId}`, message);
-    console.log(data);
     return data;
   },
   async joinChannel(channelId, userId) {

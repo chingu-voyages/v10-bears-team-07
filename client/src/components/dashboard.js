@@ -25,7 +25,7 @@ function Dashboard({ history, user, onChannelJoin, setTitle }) {
           placeholder="Find existing channels"
         />{' '}
         <span className="actionsDivider">or...</span>{' '}
-        <Link className="createLink" to="/channels/new">
+        <Link className="createLink" to="/channel/new">
           Create a new one
         </Link>
       </div>

@@ -64,9 +64,6 @@ function ProtectedApp({ user, pathname }) {
               <Channel
                 user={user}
                 routeParams={routeParams}
-                // notify={message => {
-                //   setNotification(message);
-                // }}
                 setTitle={title => setPageTitle(title)}
               />
             )}
