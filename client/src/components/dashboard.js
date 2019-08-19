@@ -4,10 +4,12 @@ import { channels } from '../services/api';
 
 import './dashboard.css';
 
-function Dashboard({ history, user, onChannelJoin }) {
+function Dashboard({ history, user, onChannelJoin, setTitle }) {
   const [fetchedChannels, setChannels] = useState(undefined);
   const [searchKeyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
+
+  setTitle('Dashboard');
 
   return (
     <div className="dashboard">
@@ -76,7 +78,12 @@ function Dashboard({ history, user, onChannelJoin }) {
     }
 
     onChannelJoin(channel);
-    history.push(`channels/${channelId}`);
+    history.push({
+      pathname: `channels/${channelId}`,
+      state: {
+        title: channel.name
+      }
+    });
   }
 }
 

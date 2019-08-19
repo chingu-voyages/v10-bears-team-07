@@ -25,9 +25,10 @@ var io = require('socket.io').listen(server);
 io.on('connection', socket => {
   socket.on('join', data => {
     socket.join(data.room);
-    io.in(data.room).emit('new', 'Bonne arrivée');
     socket.on('message', data => {
-      io.in(data.room).emit('message', data.message);
+      const message = data.message;
+      const author = data.username;
+      io.in(data.room).emit('message', { author, message });
     });
   });
 });

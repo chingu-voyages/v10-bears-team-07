@@ -1,4 +1,5 @@
 const ChannelModel = require('../models/channel');
+const userModel = require('../models/user');
 
 module.exports = {
   create,
@@ -65,12 +66,9 @@ async function addMember(req, res) {
 
 async function updateChannelMessages(req, res) {
   try {
-    const channel = await ChannelModel.findOneAndUpdate(
-      { _id: req.params.channelId },
-      { $addToSet: { messages: req.body } },
-      { new: true }
-    );
-    res.json({ channel });
+    const channel = await updateChannel(req.params.channelId, req.body);
+    const messages = await addUsernameToMessage(channel.messages);
+    res.json({ messages });
   } catch (error) {
     res.status(500).json({ error: 'Failed to retrieve channels' });
   }
@@ -81,9 +79,36 @@ async function getMessages(req, res) {
     const channel = await ChannelModel.findById(req.params.id, 'messages').sort(
       { createdAt: 'asc' }
     );
-    const messages = channel.messages;
+    const messages = await addUsernameToMessage(channel.messages);
     res.json({ messages });
   } catch (err) {
     res.status(500).json({ error: 'Failed to retrieve messages' });
   }
+}
+
+async function updateChannel(channelId, message) {
+  const channel = await ChannelModel.findOneAndUpdate(
+    { _id: channelId },
+    { $addToSet: { messages: message } },
+    { new: true }
+  );
+  return channel;
+}
+
+async function findUserById(userId) {
+  const { username } = await userModel.findById(userId, 'username');
+  return username;
+}
+
+async function addUsernameToMessage(messages) {
+  return await Promise.all(
+    messages.map(async message => {
+      const username = await findUserById(message.authorId);
+      return {
+        author: username,
+        body: message.text,
+        date: message.createdAt
+      };
+    })
+  );
 }
