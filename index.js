@@ -17,6 +17,26 @@ app.use(
 var setupRoutes = require('./src/routes/');
 setupRoutes(app);
 
+// socket.io server
+const chatPort = process.env.CHAT_PORT || 3010;
+var server = app.listen(chatPort);
+var io = require('socket.io').listen(server);
+
+io.on('connection', socket => {
+  socket.on('join', data => {
+    socket.join(data.room);
+    socket.on('message', data => {
+      const message = data.message;
+      const author = data.username;
+      io.in(data.room).emit('message', { author, message });
+    });
+  });
+});
+
+server.on('listening', () =>
+  console.info(`Chat server listening on port ${chatPort}`)
+);
+
 // Deployment code
 if (process.env.NODE_ENV == 'production') {
   const path = require('path');
@@ -31,6 +51,8 @@ app.listen(PORT, () => console.info(`App connected to port ${PORT}`));
 
 var mongoose = require('mongoose');
 const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost/v10-bears-07';
-mongoose.connect(DB_URI, { useNewUrlParser: true }, () =>
-  console.info(`Connected to ${DB_URI}`)
+mongoose.connect(
+  DB_URI,
+  { useNewUrlParser: true, useFindAndModify: false },
+  () => console.info(`Connected to ${DB_URI}`)
 );

@@ -11,6 +11,7 @@ import './protectedApp.css';
 
 function ProtectedApp({ user, pathname }) {
   const [userChannels, setChannels] = useState([]);
+  const [pageTitle, setPageTitle] = useState([]);
   useEffect(() => {
     channels.getUserChannels(user.id).then(data => {
       setChannels(data.channels);
@@ -31,7 +32,7 @@ function ProtectedApp({ user, pathname }) {
         isOpen={open}
       />
       <div className="tab">
-        <Navigation toggleDrawer={toggleDrawer} />
+        <Navigation toggleDrawer={toggleDrawer} pageTitle={pageTitle} />
 
         <Route
           path="/dashboard"
@@ -40,6 +41,7 @@ function ProtectedApp({ user, pathname }) {
               history={history}
               user={user}
               onChannelJoin={addChannel}
+              setTitle={title => setPageTitle(title)}
             />
           )}
         />
@@ -52,21 +54,19 @@ function ProtectedApp({ user, pathname }) {
                 onSubmit={channel => {
                   setChannels([...userChannels, channel]);
                 }}
+                setTitle={title => setPageTitle(title)}
               />
             )}
           />
           <Route
             path="/channels/:id"
-            render={({ match }) => {
-              const channel = userChannels.find(
-                ({ _id }) => _id === match.params.id
-              );
-              return !channel ? (
-                <Redirect to="/dashboard" />
-              ) : (
-                <Channel channel={channel} />
-              );
-            }}
+            render={routeParams => (
+              <Channel
+                user={user}
+                routeParams={routeParams}
+                setTitle={title => setPageTitle(title)}
+              />
+            )}
           />
         </Switch>
       </div>

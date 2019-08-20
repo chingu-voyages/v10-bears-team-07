@@ -4,10 +4,12 @@ import { channels } from '../services/api';
 
 import './dashboard.css';
 
-function Dashboard({ history, user, onChannelJoin }) {
+function Dashboard({ history, user, onChannelJoin, setTitle }) {
   const [fetchedChannels, setChannels] = useState(undefined);
   const [searchKeyword, setKeyword] = useState('');
   const [error, setError] = useState(null);
+
+  setTitle('Dashboard');
 
   return (
     <div className="dashboard">
@@ -23,7 +25,7 @@ function Dashboard({ history, user, onChannelJoin }) {
           placeholder="Find existing channels"
         />{' '}
         <span className="actionsDivider">or...</span>{' '}
-        <Link className="createLink" to="/channels/new">
+        <Link className="createLink" to="/channel/new">
           Create a new one
         </Link>
       </div>
@@ -76,8 +78,18 @@ function Dashboard({ history, user, onChannelJoin }) {
     }
 
     onChannelJoin(channel);
-    history.push(`channels/${channelId}`);
+    history.push({
+      pathname: `channels/${channelId}`,
+      state: {
+        title: channel.name
+      }
+    });
   }
 }
 
 export default Dashboard;
+
+// Helpers ***************************
+function canUserJoin(userId, channel) {
+  return userId !== channel.ownerId && !channel.members.includes(userId);
+}

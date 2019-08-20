@@ -4,12 +4,14 @@ import { channels } from '../services/api';
 
 import './login.css';
 
-function ChannelForm({ history, user, onSubmit }) {
+function ChannelForm({ history, user, onSubmit, setTitle }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  setTitle('New Channel');
 
   return (
     <div className="login">
@@ -86,7 +88,12 @@ function ChannelForm({ history, user, onSubmit }) {
     }
 
     onSubmit(channel);
-    history.push(`/${channel._id}`);
+    history.push({
+      pathname: `/channels/${channel._id}`,
+      state: {
+        title: channel.name
+      }
+    });
   }
 }
 

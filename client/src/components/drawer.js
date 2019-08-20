@@ -49,7 +49,14 @@ function Channels({ channels }) {
       <ul>
         {channels.map(channel => (
           <li key={channel._id}>
-            <Link to={`/channels/${channel._id}`}>
+            <Link
+              to={{
+                pathname: `/channels/${channel._id}`,
+                state: {
+                  title: channel.name
+                }
+              }}
+            >
               <h3 className="channelName">{channel.name}</h3>
               <p className="channelDescription">{channel.description}</p>
             </Link>
