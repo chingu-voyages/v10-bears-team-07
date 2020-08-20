@@ -13,7 +13,7 @@
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "email-validator": "^2.0.4",
